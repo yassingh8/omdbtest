@@ -1,6 +1,4 @@
 import React from 'react';
-// import {Route, Switch } from 'react-router-dom';
-// import {connect} from 'react-redux';
 import { listAction } from '../actions/addToList';
 import {
   Card,
@@ -8,13 +6,9 @@ import {
 } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 
-// class Movie extends React.Component {
 const Movie = (props) => {
-  // constructor(props) {
-    //   super(props);
-    //   // data = {};
-    // }
-    const favourite = useSelector(state => state.favourite);
+
+  const favourite = useSelector(state => state.favourite);
     const dispatch = useDispatch();
 
     // const getData = () => {
@@ -48,25 +42,11 @@ const Movie = (props) => {
       }   
     }
   
-    // componentWillMount() {
-    //   console.log('card didmount!');
-    //   axios
-    //   .get(
-    //       'https://www.omdbapi.com/?apikey=d0ecb0ed&i='+favourite.movieID+'&plot=full')
-    //   .then(res => {
-    //       data = res.data;
-    //       console.log(data);
-    //   });
-    // }
-  
-    // render() {
-      
       const {
         Title,
         Poster,
         Year
       } = props.data;
-      // } = getData();
       
     if (!Poster || Poster === 'N/A') {
         return null;
@@ -86,14 +66,5 @@ const Movie = (props) => {
                 </Card.Footer>     
             </Card>
       );
-    // }
 }
-
-// const mapStateToProps = state => ({
-//   searchTerm: state.favourite.searchTerm,
-//   myList: state.favourite.myList,
-//   movieList: state.favourite.movieList
-// })
-
-// export default connect(mapStateToProps, { listAction, showList })(Movie);
 export default Movie;

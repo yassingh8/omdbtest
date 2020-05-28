@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
-// import { useSelector } from 'react-redux';
 // import { createSelector } from 'reselect';
 import axios from 'axios';
-//import {Route, Switch } from 'react-router-dom';
 import { useSelector, useDispatch} from 'react-redux';
 import { fetchMovies, searchMovie, showList, showHome } from '../actions/addToList';
+
 import {
   Form,
   FormControl,
@@ -17,18 +16,8 @@ import {
 import { MdSearch, MdLibraryAdd } from 'react-icons/md';
 import Movie from './Movie';
 
-
-// const getProps = createSelector(
-//     state => state.favourite,
-//     todos => todos.filter(todo => todo.isDone).length
-//   )
-
-// class MoviesList extends React.Component {
 const MoviesList = (props) => { 
-    // state = {
-    //     moviesList: ['tt2294629'],
-    //     searchTerm: ''
-    // };
+
     const favourite = useSelector(state => state.favourite);
     const dispatch = useDispatch();
 
@@ -42,9 +31,6 @@ const MoviesList = (props) => {
 
     const handleChange = event => {
         dispatch(searchMovie(event.target.value));
-        // setState({
-        //     searchTerm: event.target.value
-        // });
     };
 
     const showFav = () => {
@@ -54,8 +40,6 @@ const MoviesList = (props) => {
     const goHome = () => {
         dispatch(showHome());
     }
-    // render() {
-        // const { moviesList } = state;
 
         return (
             <Container>
@@ -92,15 +76,5 @@ const MoviesList = (props) => {
 
             </Container>
         );
-    // }
 }
-
-// const mapStateToProps = state => ({
-//     searchTerm: state.favourite.searchTerm,
-//     myList: state.favourite.myList,
-//     movieList: state.favourite.movieList,
-//     showMy: state.favourite.showMy
-//   })
-  
-// export default connect(mapStateToProps, { searchMovie, showList, showHome, fetchMovies })(MoviesList);
 export default MoviesList;
