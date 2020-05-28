@@ -1,38 +1,42 @@
 import React from 'react';
-import axios from 'axios';
-//import {Route, Switch } from 'react-router-dom';
-import {connect} from 'react-redux';
-import { listAction, showList } from '../actions/addToList';
+// import {Route, Switch } from 'react-router-dom';
+// import {connect} from 'react-redux';
+import { listAction } from '../actions/addToList';
 import {
   Card,
   Button,
 } from 'react-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
 
-class Movie extends React.Component {
-    constructor(props) {
-      super(props);
-      // this.data = {};
-    }
+// class Movie extends React.Component {
+const Movie = (props) => {
+  // constructor(props) {
+    //   super(props);
+    //   // data = {};
+    // }
+    const favourite = useSelector(state => state.favourite);
+    const dispatch = useDispatch();
 
-    getData = () => {
-      return axios
-      .get(
-          'https://www.omdbapi.com/?apikey=d0ecb0ed&i='+this.props.movieID+'&plot=full')
-      .then(res => {
-          this.data = res.data;
-          console.log(this.data);
-      });
-    }
+    // const getData = () => {
+    //   return axios
+    //   .get(
+    //       'https://www.omdbapi.com/?apikey=d0ecb0ed&i='+favourite.movieID+'&plot=full')
+    //   .then(res => {
+    //       data = res.data;
+    //       console.log(data);
+    //   });
+    // }
     
-    handleClick(i) {
-      var l = this.props.myList
-      const j = this.props.myList.includes(i);
+    const handleClick = () => {
+      const i = props.data
+      var l = favourite.myList
+      const j = favourite.myList.includes(i);
       if (!j) {
         if (l.length<10) {
           console.log("add clicked! "+ i)
           if (l.indexOf(i)<0) {
             l = l.concat([i])
-            this.props.listAction(l);
+            dispatch(listAction(l));
           }
         }
         else alert("List full...delete some items")
@@ -40,7 +44,7 @@ class Movie extends React.Component {
       else {
         console.log("delete clicked!")
         l.splice(l.indexOf(i),1)
-        this.props.listAction(l);
+        dispatch(listAction(l));
       }   
     }
   
@@ -48,24 +52,24 @@ class Movie extends React.Component {
     //   console.log('card didmount!');
     //   axios
     //   .get(
-    //       'https://www.omdbapi.com/?apikey=d0ecb0ed&i='+this.props.movieID+'&plot=full')
+    //       'https://www.omdbapi.com/?apikey=d0ecb0ed&i='+favourite.movieID+'&plot=full')
     //   .then(res => {
-    //       this.data = res.data;
-    //       console.log(this.data);
+    //       data = res.data;
+    //       console.log(data);
     //   });
     // }
   
-    render() {
+    // render() {
       console.log('card render');
       
       const {
         Title,
         Poster,
         Year
-      } = this.props.data;
-      // } = this.getData();
+      } = props.data;
+      // } = getData();
       
-    console.log(this.props.data + ' data');
+    console.log(favourite.data + ' data');
 
     if (!Poster || Poster === 'N/A') {
         return null;
@@ -79,19 +83,20 @@ class Movie extends React.Component {
                     <Card.Text>{Year}</Card.Text>
                 </Card.Body>
                 <Card.Footer>
-                    <Button size="sm" onClick={()=>{return this.handleClick(this.props.data)}}>
-                        {this.props.myList.includes(this.props.data) ? "Delete" : "Add"}
+                    <Button size="sm" onClick={handleClick}>
+                        {favourite.myList.includes(props.data) ? "Delete" : "Add"}
                     </Button>
                 </Card.Footer>     
             </Card>
       );
-    }
+    // }
 }
 
-const mapStateToProps = state => ({
-  searchTerm: state.favourite.searchTerm,
-  myList: state.favourite.myList,
-  movieList: state.favourite.movieList
-})
+// const mapStateToProps = state => ({
+//   searchTerm: state.favourite.searchTerm,
+//   myList: state.favourite.myList,
+//   movieList: state.favourite.movieList
+// })
 
-export default connect(mapStateToProps, { listAction, showList })(Movie);
+// export default connect(mapStateToProps, { listAction, showList })(Movie);
+export default Movie;

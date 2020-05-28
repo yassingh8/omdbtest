@@ -1,8 +1,10 @@
 import React from 'react';
+// import { useSelector } from 'react-redux';
+// import { createSelector } from 'reselect';
 import axios from 'axios';
 //import {Route, Switch } from 'react-router-dom';
-import {connect} from 'react-redux';
-import { fetchMovies, searchMovie, showList } from '../actions/addToList';
+import { useSelector, useDispatch} from 'react-redux';
+import { fetchMovies, searchMovie, showList, showHome } from '../actions/addToList';
 import {
   Form,
   FormControl,
@@ -15,60 +17,59 @@ import {
 import { MdSearch, MdLibraryAdd } from 'react-icons/md';
 import Movie from './Movie';
 
-class MoviesList extends React.Component {
+
+// const getProps = createSelector(
+//     state => state.favourite,
+//     todos => todos.filter(todo => todo.isDone).length
+//   )
+
+// class MoviesList extends React.Component {
+const MoviesList = (props) => { 
     // state = {
     //     moviesList: ['tt2294629'],
     //     searchTerm: ''
     // };
+    const favourite = useSelector(state => state.favourite);
+    const dispatch = useDispatch();
 
-    search = event => {
+    const search = event => {
         event.preventDefault();
-        this.props.fetchMovies(this.props.searchTerm);
-        // axios
-        //     .get(
-        //         `https://www.omdbapi.com/?apikey=d0ecb0ed&s=${this.state.searchTerm}&plot=full`
-        //     )
-        //     .then(res => res.data)
-        //     .then(res => {
-        //         if (!res.Search) {
-        //             this.setState({ moviesList: [] });
-        //             return;
-        //         }
-
-        //         const moviesList = res.Search.map(movie => movie.imdbID);
-        //         this.setState({
-        //             moviesList
-        //         });
-        //     });
+        axios.get(`https://www.omdbapi.com/?apikey=d0ecb0ed&s=${favourite.searchTerm}&plot=full`)
+        .then(res => dispatch(fetchMovies(res.data.Search)))
+        .catch(err => console.log(err));
     };
 
-    handleChange = event => {
-        this.props.searchMovie(event.target.value);
-        // this.setState({
+    const handleChange = event => {
+        dispatch(searchMovie(event.target.value));
+        // setState({
         //     searchTerm: event.target.value
         // });
     };
 
-    showFav = () => {
-        this.props.showList(this.props.myList);
+    const showFav = () => {
+        dispatch(showList(favourite.myList));
     }
-    render() {
-        // const { moviesList } = this.state;
+
+    const goHome = () => {
+        dispatch(showHome());
+    }
+    // render() {
+        // const { moviesList } = state;
 
         return (
             <Container>
                 <Navbar bg="light" expand="lg">
-                    <Navbar.Brand href="#home">Search Movies</Navbar.Brand>
+                    <Navbar.Brand onClick={goHome}>Search Movies</Navbar.Brand>
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
-                            <Nav.Link onClick={this.showFav}>
+                            <Nav.Link onClick={showFav}>
                                 <MdLibraryAdd/>
                                 My List
                             </Nav.Link>
                         </Nav>
                         <Form inline>
-                            <FormControl type="text" placeholder="Search for a movie" onChange={this.handleChange} className="mr-sm-2" />
-                            <Button variant="outline-success" onClick={this.search}>
+                            <FormControl type="text" placeholder="Search for a movie" onChange={handleChange} className="mr-sm-2" />
+                            <Button variant="outline-success" onClick={search}>
                                 <MdSearch/>
                             </Button>
                         </Form>
@@ -76,8 +77,8 @@ class MoviesList extends React.Component {
                 </Navbar>
                 <br/>
                 <CardColumns>
-                    {this.props.movieList && this.props.movieList.length > 0 ? (
-                        this.props.movieList.map(movie => (
+                    {favourite.movieList && favourite.movieList.length > 0 ? (
+                        favourite.movieList.map(movie => (
                             <Movie data={movie} key={movie} />
                         ))
                     ) : (
@@ -90,14 +91,15 @@ class MoviesList extends React.Component {
 
             </Container>
         );
-    }
+    // }
 }
 
-const mapStateToProps = state => ({
-    searchTerm: state.favourite.searchTerm,
-    myList: state.favourite.myList,
-    movieList: state.favourite.movieList,
-    showMy: state.favourite.showMy
-  })
+// const mapStateToProps = state => ({
+//     searchTerm: state.favourite.searchTerm,
+//     myList: state.favourite.myList,
+//     movieList: state.favourite.movieList,
+//     showMy: state.favourite.showMy
+//   })
   
-export default connect(mapStateToProps, { searchMovie, showList, fetchMovies })(MoviesList);
+// export default connect(mapStateToProps, { searchMovie, showList, showHome, fetchMovies })(MoviesList);
+export default MoviesList;
