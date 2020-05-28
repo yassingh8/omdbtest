@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // import { useSelector } from 'react-redux';
 // import { createSelector } from 'reselect';
 import axios from 'axios';
@@ -32,12 +32,13 @@ const MoviesList = (props) => {
     const favourite = useSelector(state => state.favourite);
     const dispatch = useDispatch();
 
-    const search = event => {
-        event.preventDefault();
-        axios.get(`https://www.omdbapi.com/?apikey=d0ecb0ed&s=${favourite.searchTerm}&plot=full`)
+    const search = () => {
+        axios.get(`https://www.omdbapi.com/?apikey=d0ecb0ed&s=${favourite.searchTerm === '' ? 'space': favourite.searchTerm}&plot=full`)
         .then(res => dispatch(fetchMovies(res.data.Search)))
         .catch(err => console.log(err));
     };
+
+    useEffect(search, []);
 
     const handleChange = event => {
         dispatch(searchMovie(event.target.value));
@@ -79,7 +80,7 @@ const MoviesList = (props) => {
                 <CardColumns>
                     {favourite.movieList && favourite.movieList.length > 0 ? (
                         favourite.movieList.map(movie => (
-                            <Movie data={movie} key={movie} />
+                            <Movie data={movie} key={movie.imdbID} />
                         ))
                     ) : (
                         <p>

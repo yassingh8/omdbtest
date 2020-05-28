@@ -60,7 +60,6 @@ const Movie = (props) => {
     // }
   
     // render() {
-      console.log('card render');
       
       const {
         Title,
@@ -69,8 +68,6 @@ const Movie = (props) => {
       } = props.data;
       // } = getData();
       
-    console.log(favourite.data + ' data');
-
     if (!Poster || Poster === 'N/A') {
         return null;
     }
