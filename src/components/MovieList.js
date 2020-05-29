@@ -16,7 +16,7 @@ import {
 import { MdSearch, MdLibraryAdd } from 'react-icons/md';
 import Movie from './Movie';
 
-const MoviesList = (props) => { 
+const MovieList = (props) => { 
 
     const favourite = useSelector(state => state.favourite);
     const dispatch = useDispatch();
@@ -53,7 +53,7 @@ const MoviesList = (props) => {
                             </Nav.Link>
                         </Nav>
                         <Form inline>
-                            <FormControl type="text" placeholder="Search for a movie" onChange={handleChange} className="mr-sm-2" />
+                            <FormControl type="text" placeholder="Search for a movie" onChange={handleChange} onKeyUp={search} className="mr-sm-2" />
                             <Button variant="outline-success" onClick={search}>
                                 <MdSearch/>
                             </Button>
@@ -77,4 +77,4 @@ const MoviesList = (props) => {
             </Container>
         );
 }
-export default MoviesList;
+export default MovieList;
