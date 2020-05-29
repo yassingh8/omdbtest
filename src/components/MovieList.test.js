@@ -22,7 +22,7 @@ const store = mockStore(initialState);
 
 describe('<MovieList />', () => {
     test('renders without crash', () => {
-        const wrapper = shallow(<MovieList/>).dive();
+        const wrapper = shallow(<MovieList store={store}/>).dive();
         // const movie = wrapper.dive();
         expect(toJson(wrapper)).toMatchSnapshot();
     });
