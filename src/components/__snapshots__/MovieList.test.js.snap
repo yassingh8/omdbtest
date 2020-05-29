@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<MovieList /> renders without crash 1`] = `
+<MoviesList
+  fetchMovies={[Function]}
+  movieList={Array []}
+  myList={Array []}
+  searchMovie={[Function]}
+  searchTerm=""
+  showList={[Function]}
+  showMy={false}
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+/>
+`;
+
+exports[`INITIAL_STATE is correct 1`] = `
+Object {
+  "searchTerm": "",
+}
+`;
+
+exports[`SHOW_LIST is correct 1`] = `
+Object {
+  "movieList": Array [],
+  "myList": Array [],
+  "searchTerm": "",
+  "showMy": true,
+}
+`;
