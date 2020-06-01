@@ -1,4 +1,4 @@
-import {SEARCH_MOVIE, FETCH_MOVIES, BUTTON_CLICK, SHOW_LIST} from '../config/Strings';
+import {SEARCH_MOVIE, FETCH_MOVIES, BUTTON_CLICK, SHOW_LIST, SHOW_HOME} from '../config/Strings';
 
 
 const initialState = {
@@ -8,7 +8,7 @@ const initialState = {
     showMy: false
 }
 
-export default function(state = initialState,action){
+export default function(state = initialState, action){
     switch(action.type){
         case SEARCH_MOVIE:
             return{
@@ -30,6 +30,12 @@ export default function(state = initialState,action){
                 ...state,
                 movieList: action.payload,
                 showMy: true
+            }
+        case SHOW_HOME:
+            return{
+                ...state,
+                movieList: [],
+                showMy: false
             }
         default:
             return state
